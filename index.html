@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1，user-scalable=no">
+    <title>layuiAdmin后台管理模板</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!--<style>
+        .layui-nav-itemed>.layui-nav-child .sub-child a{padding-left:10px;}
+    </style>-->
+
+</head>
+<!--body标签添加layui-layout-body类名布局-->
+<body class="layui-layout-body">
+
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部区域-->
+        <div class="layui-header">
+            <div class="layui-logo">
+                <!--layui 后台布局-->
+                <img src="images/logo.png"/>
+            </div>
+            <div class="layui-btn layui-btn-normal layui-layout-left toggle-nav">
+                <i class="layui-icon layui-icon-app"></i>
+            </div>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="images/user.jpg" class="layui-nav-img">
+                        admin
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#">基本资料</a></dd>
+                        <dd><a href="#">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">注销</a></li>
+            </ul>
+        </div>
+
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">
+                            <i class="layui-icon layui-icon-flag"></i>
+                            所有产品
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd >
+                                <a href="javascript:;" data-url="view/1.html" data-id="1" data-title="产品一" class="tab-list">产品一</a>
+                                <!--<a href="javascript:;">产品一</a>
+                                <ul class="layui-nav-child sub-child">
+                                    <li><a href="javascript:;" data-url="view/1.html" data-id="1" data-title="产品一/1" class="tab-list">产品一/1</a></li>
+                                </ul>-->
+                            </dd>
+                            <dd><a href="javascript:;" data-url="view/2.html" data-id="2" data-title="产品二" class="tab-list">产品二</a></dd>
+                            <dd><a href="javascript:;"  data-url="view/3.html" data-id="3" data-title="产品三" class="tab-list">产品三</a></dd>
+                            <dd><a href="#">超链接</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="layui-icon layui-icon-vercode"></i>
+                            解决方案
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;" data-url="view/4.html" data-id="4" data-title="方案一" class="tab-list">方案一</a></dd>
+                            <dd><a href="javascript:;" data-url="view/5.html" data-id="5" data-title="方案二" class="tab-list">方案二</a></dd>
+                            <dd><a href="#">超链接</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="#">云市场(链接)</a></li>
+                    <li class="layui-nav-item"><a href="#">发布产品(链接)</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 内容主体区域 -->
+        <div class="layui-body">
+            <!--选项卡-->
+            <div class="layui-tab layui-tab-card" lay-allowClose="true" lay-filter="demo">
+                <!--选项卡标题-->
+                <ul class="layui-tab-title">
+                    <li class="layui-this">
+                        <span class="layui-icon layui-icon-home"></span>首页
+                    </li>
+                </ul>
+                <!--选项卡内容-->
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <iframe src="view/form.html"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 底部固定区域 -->
+        <div class="layui-footer">
+            © layui.com - 底部固定区域
+        </div>
+</div>
+
+
+</body>
+<script src="layui/layui.js"></script>
+<script src="js/config.js"></script>
+<script src="js/jquery.min.1.8.3.js"></script>
+<script src="js/jquery.easing.min.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(["jquery","common"], function(){
+        var $=layui.jquery;
+        var common=layui.common;
+
+        //layui-body
+        common.hello();
+
+        //初始化左导航和内容区
+        common.init();
+
+        //当点击有tab-list类名的标签时，即左侧菜单栏中内容,触发点击事件
+        $('.tab-list').on('click', function() {
+            var dataid = $(this);
+
+            //这时会判断右侧.layui-tab-title属性下的有lay-id属性的li的数目，即已经打开的tab项数目
+            if ($(".layui-tab-title li[lay-id]").length <= 1) {
+                common.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"),dataid.attr("data-title"));
+            }else {
+                //否则判断该tab项是否以及存在
+                var isData = false; //初始化一个标志，为false说明未打开该tab项 为true则说明已有
+                $.each($(".layui-tab-title li[lay-id]"), function () {
+                    //如果点击左侧菜单栏所传入的id 在右侧tab项中的lay-id属性可以找到，则说明该tab项已经打开
+                    if ($(this).attr("lay-id") == dataid.attr("data-id")) {
+                        isData = true;
+                    }
+                });
+                if (isData == false) {
+                    //标志为false 新增一个tab项
+                    common.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"),dataid.attr("data-title"));
+                };
+            };
+            //最后不管是否新增tab，最后都转到要打开的选项页面上
+            common.tabChange(dataid.attr("data-id"));
+        });
+
+    });
+</script>
+
+</html>

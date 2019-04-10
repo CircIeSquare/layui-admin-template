@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1，user-scalable=no">
+    <title>layuiAdmin后台管理模板</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+        *{margin:0;padding:0;}
+        body{padding:10px;}
+        .page ul{width:410px;border-collapse:collapse;}
+        .page ul li{width:410px;height:30px;line-height:30px;border:1px solid #000;border-collapse:collapse;
+            box-sizing:border-box;}
+    </style>
+</head>
+
+<body>
+    <!--page-->
+    <div class="page" id="page">
+        <ul>
+        </ul>
+    </div>
+    <div class="layui-laypage" id="laypage">
+
+    </div>
+
+</body>
+<script src="../layui/layui.js"></script>
+<script src="../js/config.js"></script>
+<script>
+
+    //laypage
+    layui.use(['jquery','laypage'],function(){
+        var $=layui.jquery;
+        var laypage=layui.laypage;
+
+        var page=$("#page ul");
+        var str;        //所有数据
+        var count_;      //所有数据的条数
+
+        $.ajax({
+            type:"get",
+            dataType:"json",
+            url:"data.json",          //
+            success:function(data){
+                str=data;
+                var string_='';
+                count_=str.data.length;
+
+                //alert(data);
+                //alert(typeof(data));
+                for(var i=0;i<12;i++){
+                    string_+="<li>"+str.data[i].id+str.data[i].username+
+                            str.data[i].sex+str.data[i].city+str.data[i].sign+
+                            str.data[i].experience+str.data[i].logins+str.data[i].wealth+
+                            str.data[i].classify+str.data[i].score+"</li>";
+                };
+                page.append(string_);
+
+
+                //渲染分页
+                laypage.render({
+                    elem:"laypage",        //名:值，且值只能是ID,且不用加#
+                    count:count_,               //数据总条数，默认每页10条数据
+                    //count:0,               //数据总条数，默认每页10条数据
+                    limit:12,                 //每页显示的数据条数
+                    //limits:[10,20,30,40,50,60,70,80,90,100],     //选择每页数据条数的下拉框
+                    prev:"《",        //上一页按钮字符串
+                    next:"》",        //下一页按钮字符串
+                    theme:"#333",       //定义选中后的按钮背景
+                    first:"首页",        //首页自定义字符串
+                    last:"尾页",         //尾页自定义字符串
+                    //hash:"?page",       //异步分页自定义hash值
+                    jump:function(obj,first){       //切换分页的回调函数
+                        console.log(obj);        //obj包含了当前分页的所有参数
+
+                        //本地数据分页
+                        if(!first){
+                            var tmp='';
+                            for(var i=(obj.curr-1)*obj.limit;i<obj.curr*obj.limit;i++){
+                                tmp+="<li>"+str.data[i].id+str.data[i].username+
+                                        str.data[i].sex+str.data[i].city+str.data[i].sign+
+                                        str.data[i].experience+str.data[i].logins+str.data[i].wealth+
+                                        str.data[i].classify+str.data[i].score+"</li>";
+                            };
+                            page.empty().append(tmp);
+
+                            //location.hash="#?page="+obj.curr;
+                        }
+                    }
+
+                });
+
+            },
+            error:function(){
+                alert("数据加载失败")
+            }
+        });
+
+        /*for(var i=0;i<10;i++){
+            str+="<li>"+i+"</li>";
+        };
+         page.append(string_);
+        */
+
+    });
+
+</script>
+</html>

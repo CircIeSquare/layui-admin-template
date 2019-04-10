@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layer1</title>
+    <link href="../layui/css/layui.css"/>
+    <script src="../layui/layui.js"></script>
+
+</head>
+<body>
+
+    <button class="layui-btn layui-btn-normal layui-btn-lg" id="layui-btn">按钮文字</button>
+
+</body>
+<script>
+    layui.use("layer",function(){
+        var layer=layui.layer;
+
+        //信息框
+        /*layer.open({
+           type:0,
+           title:"信息框标题",
+           content:"信息框内容"
+        });*/
+
+        //页面层
+        /*layer.open({
+           type:1,
+           title:"页面层标题",
+           content:"页面层的文字内容"
+        });*/
+
+        //iframe层
+        /*layer.open({
+           type:2,
+           title:"iframe层的标题",
+           //content:'../index.html'
+           //content:'https://www.baidu.com'
+           content:['https://www.baidu.com',"no"]
+        });*/
+
+        //加载层
+        /*layer.open({
+           type:3,
+           content:"正在加载内容..."
+        });*/
+
+        //tips层
+        layer.open({
+           type:4,
+           content:["tips层中的文字内容",'#layui-btn']
+        });
+
+    });
+</script>
+
+</html>
